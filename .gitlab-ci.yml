@@ -1,0 +1,20 @@
+stages:
+  - validate
+  - plan
+  - apply
+  - ansible
+  - destroy
+
+include:
+  - project: 'developerdurp/yml-templates' 
+    ref: 'master'
+    file: 
+      - 'terraform.yml'
+      - 'ansible.yml'
+
+plan production:
+  extends: .plan production
+
+apply:
+ extends: .apply
+
