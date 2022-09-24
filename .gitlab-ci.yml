@@ -7,7 +7,7 @@ stages:
 
 include:
   - project: 'developerdurp/yml-templates' 
-    ref: 'master'
+    ref: 'main'
     file: 
       - 'terraform.yml'
       - 'ansible.yml'
