@@ -18,3 +18,5 @@ plan production:
 apply:
  extends: .apply
 
+destroy:
+ extends: .destroy
