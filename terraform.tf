@@ -35,7 +35,6 @@ resource "linode_lke_cluster" "foobar" {
 
 provider "kubectl" {
   config_path    = "$CI_PROJECT_DIR/config"
-  load_config_file = true
 }
 
 data "kubectl_file_documents" "namespace" {
