@@ -12817,6 +12817,7 @@ resource "kubernetes_manifest" "serviceaccount_argocd_redis" {
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-redis"
+      "namespace" = "argocd"
     }
   }
 }
