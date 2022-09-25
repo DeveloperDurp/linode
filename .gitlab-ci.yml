@@ -20,9 +20,6 @@ plan production:
 
 apply:
   extends: .apply
-  artifacts:
-    paths:
-    - $CI_PROJECT_DIR
 
 destroy:
   extends: .destroy
