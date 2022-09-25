@@ -86,10 +86,6 @@ ansible:
       - terraform.tf 
       - terraform.tfvars 
       - main.yml           
-  artifacts:
-    when: always
-    paths:
-      - $CI_PROJECT_DIR
     
 destroy:
   stage: destroy

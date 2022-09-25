@@ -3,6 +3,6 @@
   tasks:
     - name: Create a k8s namespace
       kubernetes.core.k8s:
-        name: testing
+        name: argocd
         kind: Namespace
         state: present
