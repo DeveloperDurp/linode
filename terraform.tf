@@ -33,6 +33,11 @@ resource "linode_lke_cluster" "foobar" {
     }
 }
 
+resource "local_file" "kubeconfig" {
+  filename   = "config"
+  content    = base64decode(linode_lke_cluster.foobar.kubeconfig)
+}
+
 provider "kubernetes" {
   config_path    = local_file.kubeconfig.filename
 }

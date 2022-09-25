@@ -1,8 +1,3 @@
-resource "local_file" "kubeconfig" {
-  filename   = "config"
-  content    = base64decode(linode_lke_cluster.foobar.kubeconfig)
-}
-
 output "kubeconfig" {
    value = linode_lke_cluster.foobar.kubeconfig
    sensitive = true
