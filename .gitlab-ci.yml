@@ -18,6 +18,9 @@ include:
 plan production:
   extends: .plan production
   allow_failure: true
+  artifacts:
+    path:
+      - $CI_PROJECT_DIR
 
 apply:
   extends: .apply
