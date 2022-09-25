@@ -74,15 +74,8 @@ ansible:
     - echo $kubeconfig > config
   script:
     - ansible-playbook $CI_PROJECT_DIR/main.yml
-  only:
-    changes:
-      - group_vars/**/*
-      - roles/**/*
-      - templates/**/*
-      - main.yml
-      - hosts.ini
-      - terraform.tf 
-      - terraform.tfvars   
+  dependencies:
+    - apply
     
 destroy:
   stage: destroy
