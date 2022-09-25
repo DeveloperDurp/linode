@@ -7,7 +7,7 @@ stages:
 
 before_script:
   - echo "token = \"$token\"" >> terraform.tfvars 
-  - echo "config = \"$CI_PROJECT_DIR\\config\"" >> terraform.tfvars
+  - echo "config = \"$CI_PROJECT_DIR/config\"" >> terraform.tfvars
 
 include:
   - project: 'developerdurp/yml-templates' 
