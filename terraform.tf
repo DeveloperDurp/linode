@@ -37,6 +37,7 @@ resource "linode_lke_cluster" "foobar" {
 output "kubeconfig" {
    value = linode_lke_cluster.foobar.kubeconfig
    sensitive = true
+   filename = kubeconfig.yaml
 }
 
 output "api_endpoints" {
@@ -57,7 +58,7 @@ output "pool" {
 
 
 provider "kubectl" {
-  config_path      = kubeconfig
+  config_path      = "./kubeconfig.yaml"
   load_config_file = true
 }
 
