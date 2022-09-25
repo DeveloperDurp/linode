@@ -1,5 +1,4 @@
 stages:
-  - validate
   - plan
   - apply
   - ansible
@@ -64,6 +63,26 @@ apply:
       - terraform.tfvars    
   when: manual      
 
+ansible:
+  stage: ansible
+  image:
+    name: ubuntu:latest
+  before_script:
+    - apt update && apt install ansible -y
+    - ansible-galaxy collection install kubernetes.core
+    - echo $kubeconfig > config
+  script:
+    - ansible-playbook $CI_PROJECT_DIR/main.yml
+  only:
+    changes:
+      - group_vars/**/*
+      - roles/**/*
+      - templates/**/*
+      - main.yml
+      - hosts.ini
+      - terraform.tf 
+      - terraform.tfvars   
+    
 destroy:
   stage: destroy
   image:

@@ -1,0 +1,9 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create a k8s namespace
+      kubernetes.core.k8s:
+        name: testing
+        kind: Namespace
+        state: present
+        kubeconfig: config
