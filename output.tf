@@ -7,7 +7,6 @@ resource "local_file" "kubeconfig" {
 output "kubeconfig" {
    value = linode_lke_cluster.foobar.kubeconfig
    sensitive = true
-   filename = kubeconfig.yaml
 }
 
 output "api_endpoints" {
