@@ -7,25 +7,90 @@ stages:
 
 before_script:
   - echo "token = \"$token\"" >> terraform.tfvars 
-  - terraform output kubeconfig
+  - apk add --update curl jq
+  - alias convert_report="jq -r '([.resource_changes[].change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+  - terraform --version
+  - terraform init -reconfigure -backend-config="address=${GITLAB_TF_ADDRESS}" -backend-config="lock_address=${GITLAB_TF_ADDRESS}/lock" -backend-config="unlock_address=${GITLAB_TF_ADDRESS}/lock" -backend-config="username=gitlab-ci-token" -backend-config="password=${CI_JOB_TOKEN}" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"  
+  - terraform output kubeconfig  
 
-include:
-  - project: 'developerdurp/yml-templates' 
-    ref: 'main'
-    file: 
-      - 'terraform.yml'
-      - 'ansible.yml'
-
-plan production:
-  extends: .plan production
+plan:
+  stage: plan
   allow_failure: true
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  variables:
+    PLAN: plan.tfplan
+    JSON_PLAN_FILE: tfplan.json
+    TF_IN_AUTOMATION: "true"
+    GITLAB_TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}
+  cache:
+    key: "$CI_COMMIT_SHA"
+    paths:
+      - .terraform
+  script:
+    - terraform plan -var-file=terraform.tfvars
+  only:
+    changes:
+      - terraform.tf 
+      - terraform.tfvars   
   artifacts:
     when: on_failure
     paths:
       - $CI_PROJECT_DIR
 
 apply:
-  extends: .apply
+  stage: apply
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  variables:
+    PLAN: plan.tfplan
+    JSON_PLAN_FILE: tfplan.json
+    TF_IN_AUTOMATION: "true"
+    GITLAB_TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}
+  cache:
+    key: "$CI_COMMIT_SHA"
+    paths:
+      - .terraform
+  script:    
+    - terraform apply -auto-approve -var-file=terraform.tfvars
+  dependencies:
+    - plan production 
+  only:
+    changes:
+      - terraform.tf 
+      - terraform.tfvars    
+  when: manual      
+
 
 destroy:
-  extends: .destroy
+  stage: destroy
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  variables:
+    PLAN: plan.tfplan
+    JSON_PLAN_FILE: tfplan.json
+    TF_IN_AUTOMATION: "true"
+    GITLAB_TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}
+  cache:
+    key: "$CI_COMMIT_SHA"
+    paths:
+      - .terraform
+  script:
+    - terraform destroy -auto-approve -var-file=terraform.tfvars
+  dependencies:
+    - apply
+  only:
+    changes:
+      - terraform.tf 
+      - terraform.tfvars    
+  when: manual
+
