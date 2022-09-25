@@ -12,3 +12,9 @@
         src: ./argocd/argocd/argocd.yaml
         namespace: argocd
         state: present
+
+    - name: deploy apps for argocd
+      kubernetes.core.k8s:
+        src: ./argocd/argocd/apps.yaml
+        namespace: argocd
+        state: present
