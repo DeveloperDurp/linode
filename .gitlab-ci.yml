@@ -60,7 +60,7 @@ apply:
   script:    
     - terraform apply -auto-approve -var-file=terraform.tfvars
   dependencies:
-    - plan production 
+    - plan 
   only:
     changes:
       - terraform.tf 
