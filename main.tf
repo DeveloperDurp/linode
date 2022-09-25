@@ -57,10 +57,8 @@ output "pool" {
 
 
 provider "kubectl" {
-  host                   = linode_lke_cluster.foobar.endpoint
-  cluster_ca_certificate = linode_lke_cluster.foobar.cluster_ca_certificate
-  token                  = linode_lke_cluster.foobar.token
-  load_config_file       = false
+  config_path      = linode_lke_cluster.foobar.kubeconfig
+  load_config_file = true
 }
 
 data "kubectl_file_documents" "namespace" {
