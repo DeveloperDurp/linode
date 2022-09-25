@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://gitlab.com/infrastructure-as-code5/infrastructure.git
+    repoURL: https://gitlab.com/developerdurp/linode.git
     targetRevision: main
     path: argocd/cert-manager
   destination:
