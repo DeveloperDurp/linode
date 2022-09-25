@@ -5,10 +5,6 @@ terraform {
          source = "linode/linode"
          version = "1.27.1"
       }
-      kubectl = {
-         source  = "gavinbunney/kubectl"
-         version = ">= 1.7.0"
-      }
    }
 }
 //Use the Linode Provider
@@ -33,30 +29,12 @@ resource "linode_lke_cluster" "foobar" {
     }
 }
 
-provider "kubectl" {
+provider "kubernetes" {
   config_path    = "config"
-  load_config_file = true
 }
 
-data "kubectl_file_documents" "namespace" {
-    content = file("./manifests/argocd/namespace.yaml")
-} 
-
-data "kubectl_file_documents" "argocd" {
-    content = file("./manifests/argocd/install.yaml")
-}
-
-resource "kubectl_manifest" "namespace" {
-    count     = length(data.kubectl_file_documents.namespace.documents)
-    yaml_body = element(data.kubectl_file_documents.namespace.documents, count.index)
-    override_namespace = "argocd"
-}
-
-resource "kubectl_manifest" "argocd" {
-    depends_on = [
-      kubectl_manifest.namespace,
-    ]
-    count     = length(data.kubectl_file_documents.argocd.documents)
-    yaml_body = element(data.kubectl_file_documents.argocd.documents, count.index)
-    override_namespace = "argocd"
+resource "kubernetes_namespace" "argocd" {
+  metadata {
+    name = "argocd"
+  }
 }
