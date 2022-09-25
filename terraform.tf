@@ -33,9 +33,10 @@ resource "linode_lke_cluster" "foobar" {
     }
 }
 
-resource "local_file" "kubeconfig" {
-  filename   = "config"
-  content    = base64decode(linode_lke_cluster.foobar.kubeconfig)
+resource "null_resource" "copy-inventory" {
+  provisioner "local-exec" {
+    command = "echo ${linode_lke_cluster.foobar.kubeconfig} | base64 -d >> config"
+  } 
 }
 
 provider "kubernetes" {
