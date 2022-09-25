@@ -61,7 +61,6 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "applications.argoproj.io"
-      "namespace" = "argocd"
     }
     "spec" = {
       "group" = "argoproj.io"
@@ -2467,7 +2466,6 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
         "app.kubernetes.io/name" = "applicationsets.argoproj.io"
       }
       "name" = "applicationsets.argoproj.io"
-      "namespace" = "argocd"
     }
     "spec" = {
       "group" = "argoproj.io"
@@ -12387,7 +12385,6 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "appprojects.argoproj.io"
-      "namespace" = "argocd"
     }
     "spec" = {
       "group" = "argoproj.io"
@@ -12793,6 +12790,7 @@ resource "kubernetes_manifest" "serviceaccount_argocd_dex_server" {
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-dex-server"
+      "namespace" = "argocd"
     }
   }
 }
@@ -13200,7 +13198,6 @@ resource "kubernetes_manifest" "clusterrole_argocd_application_controller" {
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-application-controller"
-      "namespace" = "argocd"
     }
     "rules" = [
       {
@@ -13237,7 +13234,6 @@ resource "kubernetes_manifest" "clusterrole_argocd_server" {
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-server"
-      "namespace" = "argocd"
     }
     "rules" = [
       {
@@ -13448,7 +13444,6 @@ resource "kubernetes_manifest" "clusterrolebinding_argocd_application_controller
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-application-controller"
-      "namespace" = "argocd"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
@@ -13517,6 +13512,7 @@ resource "kubernetes_manifest" "configmap_argocd_cmd_params_cm" {
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-cmd-params-cm"
+      "namespace" = "argocd"
     }
   }
 }
