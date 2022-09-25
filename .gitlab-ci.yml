@@ -19,6 +19,8 @@ plan production:
 
 apply:
  extends: .apply
+ variables:
+   KUBECONFIG: "$CI_PROJECT_DIR/config"
  before_script:
   - echo "token = \"$token\"" >> terraform.tfvars 
 
