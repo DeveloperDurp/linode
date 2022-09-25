@@ -28,13 +28,3 @@ resource "linode_lke_cluster" "foobar" {
         }
     }
 }
-
-provider "kubernetes" {
-  config_path    = "config"
-}
-
-resource "kubernetes_namespace" "argocd" {
-  metadata {
-    name = "argocd"
-  }
-}
