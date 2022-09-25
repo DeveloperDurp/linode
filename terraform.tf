@@ -31,20 +31,14 @@ resource "linode_lke_cluster" "foobar" {
             count = pool.value["count"]
         }
     }
+    provisioner "local-exec" {
+      command = "echo ${self.kubeconfig} | base64 -d >> config"
+    } 
 }
 
 resource "local_file" "kubeconfig" {
   filename   = "config"
   content    = base64decode(linode_lke_cluster.foobar.kubeconfig)
-}
-
-resource "null_resource" "copy-inventory" {
-  triggers = {
-    uuid = uuid()
-  }
-  provisioner "local-exec" {
-    command = "echo ${linode_lke_cluster.foobar.kubeconfig} | base64 -d >> config"
-  } 
 }
 
 provider "kubernetes" {
