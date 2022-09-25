@@ -4,7 +4,7 @@ terraform {
       linode = {
          source = "linode/linode"
          version = "1.27.1"
-      },
+      }
       kubectl = {
          source  = "gavinbunney/kubectl"
          version = ">= 1.7.0"
