@@ -1,8 +1,14 @@
 - hosts: localhost
   gather_facts: no
   tasks:
-    - name: Create a k8s namespace
+    - name: Create argocd namespace
       kubernetes.core.k8s:
         name: argocd
         kind: Namespace
+        state: present
+
+    - name: deploy argocd
+      kubernetes.core.k8s:
+        src: ./argocd/argocd/argocd.yaml
+        namespace: argocd
         state: present
