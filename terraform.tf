@@ -40,7 +40,7 @@ resource "null_resource" "copy-inventory" {
 }
 
 provider "kubernetes" {
-  config_path    = local_file.kubeconfig.filename
+  config_path    = "config"
 }
 
 resource "kubernetes_namespace" "argocd" {
