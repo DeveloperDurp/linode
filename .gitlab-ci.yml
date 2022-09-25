@@ -17,6 +17,10 @@ plan production:
 
 apply:
  extends: .apply
+ before_script:
+   - echo "token = '$token'" >> terraform.tfvars 
 
 destroy:
  extends: .destroy
+ before_script:
+   - echo "token = '$token'" >> terraform.tfvars 
