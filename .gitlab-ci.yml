@@ -19,6 +19,7 @@ plan production:
   extends: .plan production
   allow_failure: true
   artifacts:
+    when: on_failure
     paths:
       - $CI_PROJECT_DIR
 
