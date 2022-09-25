@@ -54,3 +54,34 @@ output "id" {
 output "pool" {
    value = linode_lke_cluster.foobar.pool
 }
+
+
+provider "kubectl" {
+  host                   = linode_lke_cluster.foobar.endpoint
+  cluster_ca_certificate = linode_lke_cluster.foobar.cluster_ca_certificate
+  token                  = linode_lke_cluster.foobar.token
+  load_config_file       = false
+}
+
+data "kubectl_file_documents" "namespace" {
+    content = file("../manifests/argocd/namespace.yaml")
+} 
+
+data "kubectl_file_documents" "argocd" {
+    content = file("../manifests/argocd/install.yaml")
+}
+
+resource "kubectl_manifest" "namespace" {
+    count     = length(data.kubectl_file_documents.namespace.documents)
+    yaml_body = element(data.kubectl_file_documents.namespace.documents, count.index)
+    override_namespace = "argocd"
+}
+
+resource "kubectl_manifest" "argocd" {
+    depends_on = [
+      kubectl_manifest.namespace,
+    ]
+    count     = length(data.kubectl_file_documents.argocd.documents)
+    yaml_body = element(data.kubectl_file_documents.argocd.documents, count.index)
+    override_namespace = "argocd"
+}
