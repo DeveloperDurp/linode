@@ -62,11 +62,11 @@ provider "kubectl" {
 }
 
 data "kubectl_file_documents" "namespace" {
-    content = file("../manifests/argocd/namespace.yaml")
+    content = file("./manifests/argocd/namespace.yaml")
 } 
 
 data "kubectl_file_documents" "argocd" {
-    content = file("../manifests/argocd/install.yaml")
+    content = file("./manifests/argocd/install.yaml")
 }
 
 resource "kubectl_manifest" "namespace" {
