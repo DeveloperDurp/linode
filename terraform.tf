@@ -40,3 +40,10 @@ resource "local_file" "kubeconfig" {
   filename   = "config"
   content    = base64decode(linode_lke_cluster.foobar.kubeconfig)
 }
+
+resource "linode_nodebalancer" "foobar" {
+    label = var.label
+    region = var.region
+    client_conn_throttle = 20
+    tags = var.tags
+}
