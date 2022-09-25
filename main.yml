@@ -6,4 +6,4 @@
         name: testing
         kind: Namespace
         state: present
-        kubeconfig: config
+        kubeconfig: "config"
