@@ -7,6 +7,11 @@
         kind: Namespace
         state: present
 
+    - name: deploy kubeseal
+      kubernetes.core.k8s:
+        src: ./kubeseal.yaml
+        state: present
+
     - name: deploy argocd
       kubernetes.core.k8s:
         src: ./argocd/argocd/argocd.yaml
