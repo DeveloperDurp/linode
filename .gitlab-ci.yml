@@ -78,6 +78,10 @@ ansible:
     - ansible-playbook $CI_PROJECT_DIR/main.yml
   needs:
     - apply
+  only:
+    changes:
+      - terraform.tf 
+      - terraform.tfvars      
     
 destroy:
   stage: destroy
