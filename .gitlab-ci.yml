@@ -67,7 +67,7 @@ ansible:
   stage: ansible
   variables:
     DEBIAN_FRONTEND: noninteractive
-    K8S_AUTH_KUBECONFIG: config
+    K8S_AUTH_KUBECONFIG: ${kubeconfig}
   image:
     name: ubuntu:latest
   before_script:
