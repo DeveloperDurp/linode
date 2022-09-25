@@ -42,7 +42,7 @@ resource "local_file" "kubeconfig" {
 }
 
 provider "kubernetes" {
-  config_path    = "config"
+  config_path    = "kubeconfig"
 }
 
 resource "kubernetes_namespace" "argocd" {
