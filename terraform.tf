@@ -1,11 +1,15 @@
 terraform {
-   backend "http" {} 
-   required_providers {
-      linode = {
-         source = "linode/linode"
-         version = "1.27.1"
-      }
-   }
+  backend "http" {} 
+  required_providers {
+    linode = {
+        source = "linode/linode"
+        version = "1.27.1"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.0.3"
+    }
+  }
 }
 //Use the Linode Provider
 provider "linode" {
@@ -30,7 +34,7 @@ resource "linode_lke_cluster" "foobar" {
 }
 
 provider "kubernetes" {
-  config_path    = "./config"
+  config_path    = local_file.kubeconfig.filename
 }
 
 resource "kubernetes_namespace" "argocd" {
