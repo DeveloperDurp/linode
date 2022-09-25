@@ -42,7 +42,6 @@ resource "null_resource" "copy-inventory" {
   triggers = {
     uuid = uuid()
   }
-  }
   provisioner "local-exec" {
     command = "echo ${linode_lke_cluster.foobar.kubeconfig} | base64 -d >> config"
   } 
