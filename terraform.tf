@@ -33,14 +33,13 @@ resource "linode_lke_cluster" "foobar" {
     }
 }
 
-resource "null_resource" "copy-inventory" {
-  provisioner "local-exec" {
-    command = "echo ${linode_lke_cluster.foobar.kubeconfig} | base64 -d >> config"
-  } 
+resource "local_file" "kubeconfig" {
+  filename   = "config"
+  content    = base64decode(linode_lke_cluster.foobar.kubeconfig)
 }
 
 provider "kubernetes" {
-  config_path    = "config"
+  config_path    = local_file.kubeconfig.filename
 }
 
 resource "kubernetes_namespace" "argocd" {
