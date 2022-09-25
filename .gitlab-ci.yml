@@ -5,6 +5,10 @@ stages:
   - ansible
   - destroy
 
+before_script:
+  - echo "token = \"$token\"" >> terraform.tfvars 
+  - echo "config = \"$CI_PROJECT_DIR\\config\"" >> terraform.tfvars
+
 include:
   - project: 'developerdurp/yml-templates' 
     ref: 'main'
@@ -14,15 +18,9 @@ include:
 
 plan production:
   extends: .plan production
-  before_script:
-  - echo "token = \"$token\"" >> terraform.tfvars 
 
 apply:
  extends: .apply
- before_script:
-  - echo "token = \"$token\"" >> terraform.tfvars 
 
 destroy:
  extends: .destroy
- before_script:
-   - echo "token = \"$token\"" >> terraform.tfvars 
