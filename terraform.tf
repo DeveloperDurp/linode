@@ -33,33 +33,9 @@ resource "linode_lke_cluster" "foobar" {
     }
 }
 
-//Export this cluster's attributes
-output "kubeconfig" {
-   value = linode_lke_cluster.foobar.kubeconfig
-   sensitive = true
-   filename = kubeconfig.yaml
-}
-
-output "api_endpoints" {
-   value = linode_lke_cluster.foobar.api_endpoints
-}
-
-output "status" {
-   value = linode_lke_cluster.foobar.status
-}
-
-output "id" {
-   value = linode_lke_cluster.foobar.id
-}
-
-output "pool" {
-   value = linode_lke_cluster.foobar.pool
-}
-
-
 provider "kubectl" {
-  config_path      = "./kubeconfig.yaml"
-  load_config_file = true
+  config_path            = "kubeconfig"
+  load_config_file       = true
 }
 
 data "kubectl_file_documents" "namespace" {
