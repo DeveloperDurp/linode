@@ -58,7 +58,7 @@ output "pool" {
 
 provider "kubectl" {
   config_path      = base64decode(linode_lke_cluster.foobar.kubeconfig)
-  load_config_file = true
+  load_config_file = false
 }
 
 data "kubectl_file_documents" "namespace" {
