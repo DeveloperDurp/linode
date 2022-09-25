@@ -69,6 +69,7 @@ ansible:
     name: ubuntu:latest
   before_script:
     - apt update && apt install ansible -y
+    - pip install kubernetes
     - ansible-galaxy collection install kubernetes.core
     - echo $kubeconfig > config
   script:
