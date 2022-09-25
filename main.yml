@@ -11,6 +11,7 @@
       kubernetes.core.k8s:
         src: ./kubeseal.yaml
         state: present
+        force: yes
 
     - name: deploy argocd
       kubernetes.core.k8s:
