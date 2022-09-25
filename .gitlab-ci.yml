@@ -15,8 +15,8 @@ include:
       - 'terraform.yml'
       - 'ansible.yml'
 
-plan production:
-  extends: .plan production
+#plan production:
+#  extends: .plan production
 
 apply:
   extends: .apply
