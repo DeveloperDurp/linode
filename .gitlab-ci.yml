@@ -34,6 +34,7 @@ plan:
     changes:
       - terraform.tf 
       - terraform.tfvars   
+      - main.yml      
 
 apply:
   stage: apply
@@ -61,6 +62,7 @@ apply:
     changes:
       - terraform.tf 
       - terraform.tfvars    
+      - main.yml      
   when: manual      
 
 ansible:
@@ -82,7 +84,8 @@ ansible:
   only:
     changes:
       - terraform.tf 
-      - terraform.tfvars      
+      - terraform.tfvars 
+      - main.yml           
     
 destroy:
   stage: destroy
@@ -107,6 +110,7 @@ destroy:
   only:
     changes:
       - terraform.tf 
-      - terraform.tfvars    
+      - terraform.tfvars 
+      - main.yml         
   when: manual
 
