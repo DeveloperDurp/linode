@@ -36,10 +36,6 @@ plan:
     changes:
       - terraform.tf 
       - terraform.tfvars   
-  artifacts:
-    when: on_failure
-    paths:
-      - $CI_PROJECT_DIR
 
 apply:
   stage: apply
