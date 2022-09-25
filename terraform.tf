@@ -34,8 +34,8 @@ resource "linode_lke_cluster" "foobar" {
 }
 
 provider "kubectl" {
-  config_path            = "kubeconfig"
-  load_config_file       = true
+  config_path      = "kube-config"
+  load_config_file = true
 }
 
 data "kubectl_file_documents" "namespace" {
