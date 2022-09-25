@@ -14,7 +14,7 @@ variable "label" {
 
 variable "region" {
     description = "The region where your cluster will be located. (required)"
-    default = "us-east"
+    default = "us-central"
 }
 
 variable "tags" {
@@ -31,11 +31,7 @@ variable "pools" {
     }))
     default = [
         {
-            type = "g6-standard-4"
-            count = 3
-        },
-        {
-            type = "g6-standard-8"
+            type = "g6-standard-1"
             count = 3
         }
     ]

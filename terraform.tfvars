@@ -1,4 +1,4 @@
-label = "example-lke-cluster"
+label = "main-cluster"
 k8s_version = "1.23"
 region = "us-central"
 pools = [
