@@ -65,10 +65,12 @@ apply:
 
 ansible:
   stage: ansible
+  variables:
+    DEBIAN_FRONTEND: noninteractive
   image:
     name: ubuntu:latest
   before_script:
-    - apt update && apt install ansible python3-pip -y
+    - apt update && apt install tzdata ansible python3-pip -y
     - pip install kubernetes
     - ansible-galaxy collection install kubernetes.core
     - echo $kubeconfig > config
