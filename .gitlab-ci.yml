@@ -76,7 +76,7 @@ ansible:
     - echo $kubeconfig > config
   script:
     - ansible-playbook $CI_PROJECT_DIR/main.yml
-  dependencies:
+  needs:
     - apply
     
 destroy:
