@@ -47,3 +47,9 @@ resource "linode_nodebalancer" "foobar" {
     client_conn_throttle = 20
     tags = var.tags
 }
+
+resource "linode_nodebalancer_config" "foofig" {
+    nodebalancer_id = linode_nodebalancer.foobar.id
+    port = 443
+    protocol = "https"
+}
