@@ -3,7 +3,10 @@ oauth2-proxy:
 
   config:
     annotations: {}
-    existingSecret: oauth-credentials
+    #existingSecret: oauth-credentials
+    clientID: "890fed9e28175a9bac160ab2849341a04660f24501bd74cd6307bf352b4b7052"
+    clientSecret: "4a4e0940fcc512c3f0d1b13e570bfd75ed53700a577575b3dcd1b81d8fdaf436"
+    cookieSecret: "Rkw0bkpkaVp0NkZ5bFpTSWpmRk9Mc0ZsVjR5OWJLZTk="
     cookieName: ""
     google: {}
     configFile: |-
