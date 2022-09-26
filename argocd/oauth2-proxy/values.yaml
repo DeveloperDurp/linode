@@ -9,7 +9,7 @@ oauth2-proxy:
     configFile: |-
       email_domains = [ "*" ]
       upstreams = [ "file:///dev/null" ]
-      provider = "linode"
+      provider = "gitlab"
       set_xauthrequest=true
       pass_host_header=true
       pass_user_headers=true
