@@ -1,143 +1,144 @@
-sealed-secrets:  
-  
-  kubeVersion: ""
-  nameOverride: ""
-  fullnameOverride: ""
-  namespace: ""
-  extraDeploy: []
-  commonAnnotations: {}
-  
-  image:
-    registry: docker.io
-    repository: bitnami/sealed-secrets-controller
-    tag: v0.18.5
-    pullPolicy: Always
-    pullSecrets: []
-  
-  createController: true
-  secretName: "sealed-secrets-key"
-  updateStatus: true
-  keyrenewperiod: ""
-  rateLimit: ""
-  rateLimitBurst: ""
-  additionalNamespaces: []
-  command: []
-  args: []
-  livenessProbe:
-    enabled: true
-    initialDelaySeconds: 0
-    periodSeconds: 10
-    timeoutSeconds: 1
-    failureThreshold: 3
-    successThreshold: 1
-  readinessProbe:
-    enabled: true
-    initialDelaySeconds: 0
-    periodSeconds: 10
-    timeoutSeconds: 1
-    failureThreshold: 3
-    successThreshold: 1
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 0
-    periodSeconds: 10
-    timeoutSeconds: 1
-    failureThreshold: 3
-    successThreshold: 1
-  
-  customLivenessProbe: {}
-  
-  customReadinessProbe: {}
-  
-  customStartupProbe: {}
-  
-  resources:
-    limits: {}
-    requests: {}
-  
-  podSecurityContext:
-    enabled: true
-    fsGroup: 65534
-  containerSecurityContext:
-    enabled: true
-    readOnlyRootFilesystem: true
-    runAsNonRoot: true
-    runAsUser: 1001
-  
-  automountServiceAccountToken: ""
-  
-  podLabels: {}
-  
-  podAnnotations: {}
-  
-  priorityClassName: ""
-  
-  runtimeClassName: ""
-  
-  affinity: {}
-  
-  nodeSelector: {}
-  
-  tolerations: []
-  
-  additionalVolumes: []
-  
-  additionalVolumeMounts: []
-  
-  hostNetwork: false
-  
-  dnsPolicy: ""
-  
-  service:
-    type: ClusterIP
-    port: 8080
-    nodePort: ""
-    annotations: {}
-  
-  ingress:
-    enabled: false
-    pathType: ImplementationSpecific
-    apiVersion: ""
-    ingressClassName: ""
-    hostname: sealed-secrets.local
-    path: /v1/cert.pem
-    annotations:
-    tls: false
-    selfSigned: false
-    extraHosts: []
-    extraPaths: []
-    extraTls: []
-    secrets: []
-  
-  networkPolicy:
-    enabled: false
-  
-  serviceAccount:
-    annotations: {}
-    create: true
-    labels: {}
-    name: ""
-    automountServiceAccountToken: ""
-  
-  rbac:
-    create: true
-    clusterRole: true
-    labels: {}
-    pspEnabled: false
-  
-  metrics:
-    serviceMonitor:
-      enabled: false
-      namespace: ""
-      labels: {}
-      annotations: {}
-      interval: ""
-      scrapeTimeout: ""
-      honorLabels: true
-      metricRelabelings: []
-      relabelings: []
-    dashboards:
-      create: false
-      labels: {}
-      namespace: ""
-  
+#sealed-secrets:  
+#  
+#  kubeVersion: ""
+#  nameOverride: ""
+#  fullnameOverride: ""
+#  namespace: ""
+#  extraDeploy: []
+#  commonAnnotations: {}
+#  
+#  image:
+#    registry: docker.io
+#    repository: bitnami/sealed-secrets-controller
+#    tag: v0.18.5
+#    pullPolicy: Always
+#    pullSecrets: []
+#  
+#  createController: true
+#  secretName: "sealed-secrets-key"
+#  updateStatus: true
+#  keyrenewperiod: ""
+#  rateLimit: ""
+#  rateLimitBurst: ""
+#  additionalNamespaces: []
+#  command: []
+#  args: []
+#  livenessProbe:
+#    enabled: true
+#    initialDelaySeconds: 0
+#    periodSeconds: 10
+#    timeoutSeconds: 1
+#    failureThreshold: 3
+#    successThreshold: 1
+#  readinessProbe:
+#    enabled: true
+#    initialDelaySeconds: 0
+#    periodSeconds: 10
+#    timeoutSeconds: 1
+#    failureThreshold: 3
+#    successThreshold: 1
+#  startupProbe:
+#    enabled: false
+#    initialDelaySeconds: 0
+#    periodSeconds: 10
+#    timeoutSeconds: 1
+#    failureThreshold: 3
+#    successThreshold: 1
+#  
+#  customLivenessProbe: {}
+#  
+#  customReadinessProbe: {}
+#  
+#  customStartupProbe: {}
+#  
+#  resources:
+#    limits: {}
+#    requests: {}
+#  
+#  podSecurityContext:
+#    enabled: true
+#    fsGroup: 65534
+#  containerSecurityContext:
+#    enabled: true
+#    readOnlyRootFilesystem: true
+#    runAsNonRoot: true
+#    runAsUser: 1001
+#  
+#  automountServiceAccountToken: ""
+#  
+#  podLabels: {}
+#  
+#  podAnnotations: {}
+#  
+#  priorityClassName: ""
+#  
+#  runtimeClassName: ""
+#  
+#  affinity: {}
+#  
+#  nodeSelector: {}
+#  
+#  tolerations: []
+#  
+#  additionalVolumes: []
+#  
+#  additionalVolumeMounts: []
+#  
+#  hostNetwork: false
+#  
+#  dnsPolicy: ""
+#  
+#  service:
+#    type: ClusterIP
+#    port: 8080
+#    nodePort: ""
+#    annotations: {}
+#  
+#  ingress:
+#    enabled: false
+#    pathType: ImplementationSpecific
+#    apiVersion: ""
+#    ingressClassName: ""
+#    hostname: sealed-secrets.local
+#    path: /v1/cert.pem
+#    annotations:
+#    tls: false
+#    selfSigned: false
+#    extraHosts: []
+#    extraPaths: []
+#    extraTls: []
+#    secrets: []
+#  
+#  networkPolicy:
+#    enabled: false
+#  
+#  serviceAccount:
+#    annotations: {}
+#    create: true
+#    labels: {}
+#    name: ""
+#    automountServiceAccountToken: ""
+#  
+#  rbac:
+#    create: true
+#    clusterRole: true
+#    labels: {}
+#    pspEnabled: false
+#  
+#  metrics:
+#    serviceMonitor:
+#      enabled: false
+#      namespace: ""
+#      labels: {}
+#      annotations: {}
+#      interval: ""
+#      scrapeTimeout: ""
+#      honorLabels: true
+#      metricRelabelings: []
+#      relabelings: []
+#    dashboards:
+#      create: false
+#      labels: {}
+#      namespace: ""
+#  
+#
