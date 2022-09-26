@@ -1,0 +1,163 @@
+oauth2-proxy:
+  kubeVersion:
+
+  config:
+    annotations: {}
+    existingSecret: oauth-credentials
+    cookieName: ""
+    google: {}
+    configFile: |-
+      email_domains = [ "*" ]
+      upstreams = [ "file:///dev/null" ]
+      provider = "gitlab"
+      set_xauthrequest=true
+      pass_host_header=true
+      pass_user_headers=true
+      request_logging=true
+      cookie_secure=true
+
+  alphaConfig:
+    enabled: false
+    annotations: {}
+    serverConfigData: {}
+    metricsConfigData: {}
+    configData: {}
+    existingConfig: ~
+
+  image:
+    repository: "quay.io/oauth2-proxy/oauth2-proxy"
+    tag: "v7.2.1"
+    pullPolicy: "Always"
+
+  extraArgs: 
+    upstream: "file:///dev/null"
+    email-domain: "*"
+    redirect-url: "https://oauth.durp.info/oauth2/callback"
+    whitelist-domain: ".durp.info"
+    cookie-domain: ".durp.info"
+  
+  extraEnv: []
+
+  customLabels: {}
+
+  authenticatedEmailsFile:
+    enabled: false
+    persistence: configmap
+    template: ""
+    restrictedUserAccessKey: ""
+    restricted_access: ""
+    annotations: {}
+
+  service:
+    type: ClusterIP
+    portNumber: 80
+    annotations: {}
+
+  serviceAccount:
+    enabled: true
+    name:
+    annotations: {}
+
+  ingress:
+    enabled: true
+    path: /
+    pathType: Prefix
+    hosts:
+      - oauth.durp.info
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-production 
+    tls:
+      - secretName: oauth-tls
+        hosts:
+          - oauth.durp.info
+
+  resources: 
+    limits:
+      cpu: 100m
+      memory: 300Mi
+    requests:
+      cpu: 100m
+      memory: 300Mi
+
+  extraVolumes: []
+
+  extraVolumeMounts: []
+
+  priorityClassName: ""
+
+  hostAlias:
+    enabled: failureThreshold
+
+  tolerations: []
+
+  nodeSelector: {}
+
+  proxyVarsAsSecrets: true
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    timeoutSeconds: 1
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    timeoutSeconds: 1
+    periodSeconds: 10
+    successThreshold: 1
+
+  securityContext:
+    enabled: false
+    runAsNonRoot: true
+
+  deploymentAnnotations: {}
+  podAnnotations: {}
+  podLabels: {}
+  replicaCount: 1
+
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+
+  podSecurityContext: {}
+
+  httpScheme: http
+
+  htpasswdFile:
+    enabled: false
+    existingSecret: ""
+    entries: {}
+
+  sessionStorage:
+    type: cookie
+    redis:
+      existingSecret: ""
+      password: ""
+      clientType: "standalone"
+      standalone:
+        connectionUrl: ""
+      cluster:
+        connectionUrls: []
+      sentinel:
+        password: ""
+        masterName: ""
+        connectionUrls: []
+
+  redis:
+    enabled: false
+  checkDeprecation: true
+
+  metrics:
+    enabled: true
+    port: 44180
+    servicemonitor:
+      enabled: false
+      namespace: ""
+      prometheusInstance: default
+      interval: 60s
+      scrapeTimeout: 30s
+      labels: {}
+
+  extraObjects: []
