@@ -88,7 +88,7 @@ oauth2-proxy:
   priorityClassName: ""
 
   hostAlias:
-    enabled: failureThreshold
+    enabled: false
 
   tolerations: []
 
