@@ -77,7 +77,7 @@ ansible:
     - pip install kubernetes
     - ansible-galaxy collection install kubernetes.core
     - cat $kubeconfig > config
-    - cat $kubeseal > kubeseal.yaml
+    - cat $kubeseal > kubeseal.key
   script:
     - ansible-playbook $CI_PROJECT_DIR/main.yml
   needs:
