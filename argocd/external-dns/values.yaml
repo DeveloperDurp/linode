@@ -2,7 +2,7 @@ external-dns:
   image:
     repository: k8s.gcr.io/external-dns/external-dns
     # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
-    tag: ""
+    tag: "0.12.2-debian-11-r14"
     pullPolicy: Always
   
   imagePullSecrets: []
