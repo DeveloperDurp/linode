@@ -132,10 +132,10 @@ external-dns:
   provider: Cloudflare
   
   extraArgs: 
-    - --source=ingress
-    - --domain-filter=durp.info 
-    - --provider=cloudflare
-    - --cloudflare-proxied
+    --source=ingress
+    --domain-filter=durp.info 
+    --provider=cloudflare
+    --cloudflare-proxied
   
   deploymentStrategy:
     type: Recreate
