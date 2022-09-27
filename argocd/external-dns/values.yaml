@@ -44,7 +44,7 @@ external-dns:
   serviceTypeFilter: []
   
   cloudflare:
-    secretName: "external-dns-test"
+    secretName: "external-dns"
     proxied: true
   
   domainFilters: []
