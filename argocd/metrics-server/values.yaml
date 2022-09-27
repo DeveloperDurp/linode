@@ -59,10 +59,8 @@ metrics-server:
   extraEnvVarsCM: ""
   extraEnvVarsSecret: ""
   extraArgs: 
-      - name: kubelet-insecure-tls
-        value: true
-      - name: kubelet-preferred-address-types
-        value: InternalIP
+     - --kubelet-insecure-tls=true
+     - --kubelet-preferred-address-types=InternalIP
   sidecars: []
   initContainers: []
   podLabels: {}
