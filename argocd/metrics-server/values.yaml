@@ -1,0 +1,156 @@
+metrics-server: 
+
+  global:
+    imageRegistry: ""
+    imagePullSecrets: []
+  
+  kubeVersion: ""
+  nameOverride: ""
+  fullnameOverride: ""
+  namespaceOverride: ""
+  commonLabels: {}
+  commonAnnotations: {}
+  extraDeploy: []
+  
+  diagnosticMode:
+    enabled: false
+    command:
+      - sleep
+    args:
+      - infinity
+  
+  image:
+    registry: docker.io
+    repository: bitnami/metrics-server
+    #tag: 0.6.1-debian-11-r34
+    digest: ""
+    pullPolicy: Always
+    pullSecrets: []
+  
+  hostAliases: []
+  replicas: 1
+  
+  updateStrategy:
+    type: RollingUpdate
+  
+  rbac:
+    create: true
+  
+  serviceAccount:
+    create: true
+    name: ""
+    automountServiceAccountToken: true
+    annotations: {}
+  
+  apiService:
+    create: true
+    insecureSkipTLSVerify: true
+    caBundle: ""
+  
+  containerPorts:
+    https: 8443
+  
+  hostNetwork: false
+  dnsPolicy: "ClusterFirst"
+  command: []
+  args: []
+  lifecycleHooks: {}
+  extraEnvVars: []
+  extraEnvVarsCM: ""
+  extraEnvVarsSecret: ""
+  extraArgs: 
+      - name: kubelet-insecure-tls
+        value: true
+      - name: kubelet-preferred-address-types
+        value: InternalIP
+  sidecars: []
+  initContainers: []
+  podLabels: {}
+  podAnnotations: {}
+  priorityClassName: ""
+  schedulerName: ""
+  terminationGracePeriodSeconds: ""
+  podAffinityPreset: ""
+  podAntiAffinityPreset: soft
+  
+  pdb:
+    create: false
+    minAvailable: ""
+    maxUnavailable: ""
+  
+  nodeAffinityPreset:
+    type: ""
+    key: ""
+    values: []
+  
+  affinity: {}
+  topologySpreadConstraints: []
+  nodeSelector: {}
+  tolerations: []
+  
+  service:
+    type: ClusterIP
+    ports:
+      https: 443
+  
+    nodePorts:
+      https: ""
+    clusterIP: ""
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: Cluster
+    extraPorts: []
+    annotations: {}
+    labels: {}
+    sessionAffinity: None
+    sessionAffinityConfig: {}
+  
+  resources:
+    limits:
+       cpu: 250m
+       memory: 256Mi
+  
+    requests:
+       cpu: 250m
+       memory: 256Mi
+  
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+  
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+  
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 3
+    successThreshold: 1
+  
+  customStartupProbe: {}
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  
+  containerSecurityContext:
+    enabled: true
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1001
+  
+  podSecurityContext:
+    enabled: false
+    fsGroup: 1001
+  
+  extraVolumes: []
+  extraVolumeMounts: []
