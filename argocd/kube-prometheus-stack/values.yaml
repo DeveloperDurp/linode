@@ -40,7 +40,6 @@ kube-prometheus-stack:
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/auth-response-headers: Authorization
         external-dns.alpha.kubernetes.io/hostname: alertmanager.durp.info
-        external-dns.alpha.kubernetes.io/ttl: "300"
         nginx.ingress.kubernetes.io/auth-url: http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth
         nginx.ingress.kubernetes.io/auth-signin: https://oauth.durp.info/oauth2/start?rd=https://$host$request_uri$is_args$args        
       hosts:
@@ -69,7 +68,6 @@ kube-prometheus-stack:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-production
         external-dns.alpha.kubernetes.io/hostname: grafana.durp.info
-        external-dns.alpha.kubernetes.io/ttl: "300"
         kubernetes.io/ingress.class: nginx
       hosts:
         - grafana.durp.info
