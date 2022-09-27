@@ -129,7 +129,7 @@ external-dns:
   
   domainFilters: []
   
-  provider: Cloudflare
+  provider: cloudflare
   
   extraArgs: []
   
