@@ -131,8 +131,6 @@ ansible-destroy:
     - ansible-playbook $CI_PROJECT_DIR/destroy.yml
   needs:
     - apply
-  dependencies:
-    - apply    
   only:
     changes:
       - terraform.tf 
