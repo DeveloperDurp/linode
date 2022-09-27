@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Delete argocd namespace
+      kubernetes.core.k8s:
+        name: argocd
+        kind: Namespace
+        state: absent
+
+    - name: Delete ingress-nginx namespace
+      kubernetes.core.k8s:
+        name: ingress-nginx
+        kind: Namespace
+        state: absent
+            

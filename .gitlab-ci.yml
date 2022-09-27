@@ -1,7 +1,6 @@
 stages:
   - plan
   - apply
-  - ansible
   - destroy
 
 before_script:
@@ -65,8 +64,8 @@ apply:
       - main.yml      
   when: manual      
 
-ansible:
-  stage: ansible
+ansible-apply:
+  stage: apply
   variables:
     DEBIAN_FRONTEND: noninteractive
     K8S_AUTH_KUBECONFIG: config
@@ -79,7 +78,7 @@ ansible:
     - cat $kubeconfig > config
     - cat $kubeseal > kubeseal.key
   script:
-    - ansible-playbook $CI_PROJECT_DIR/main.yml
+    - ansible-playbook $CI_PROJECT_DIR/apply.yml
   needs:
     - apply
   only:
@@ -108,10 +107,35 @@ destroy:
     - terraform destroy -auto-approve -var-file=terraform.tfvars
   dependencies:
     - apply
+  needs:
+    - ansible-destroy    
   only:
     changes:
       - terraform.tf 
       - terraform.tfvars 
       - main.yml         
-  when: manual
 
+ansible-destroy:
+  stage: destroy
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+    K8S_AUTH_KUBECONFIG: config
+  image:
+    name: ubuntu:latest
+  before_script:
+    - apt update && apt install tzdata ansible python3-pip -y
+    - pip install kubernetes
+    - ansible-galaxy collection install kubernetes.core
+    - cat $kubeconfig > config
+  script:
+    - ansible-playbook $CI_PROJECT_DIR/destroy.yml
+  needs:
+    - apply
+  dependencies:
+    - apply    
+  only:
+    changes:
+      - terraform.tf 
+      - terraform.tfvars 
+      - main.yml   
+  when: manual
