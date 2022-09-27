@@ -61,16 +61,24 @@ external-dns:
     scrapeTimeout: 10s
   
   env: 
-    - name: CF_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: cloudflare
-          key: CF_API_KEY
-    - name: CF_API_EMAIL
-      valueFrom:
-        secretKeyRef:
-          name: cloudflare
-          key: CF_API_EMAIL
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        key: cloudflare_api_token
+        name: external-dns
+        optional: true
+  - name: CF_API_KEY
+    valueFrom:
+      secretKeyRef:
+        key: cloudflare_api_key
+        name: external-dns
+        optional: true
+  - name: CF_API_EMAIL
+    valueFrom:
+      secretKeyRef:
+        key: cloudflare_api_email
+        name: external-dns
+        optional: true
   
   livenessProbe:
     httpGet:
