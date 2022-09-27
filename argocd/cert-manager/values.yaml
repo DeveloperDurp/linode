@@ -9,7 +9,6 @@ cert-manager:
     nameservers:
       - "1.1.1.1"
       - "1.0.0.1"
-  cert-manager:
-    deploymentAnnotations:
-      certmanager.k8s.io/disable-validation: "true"
-  
+  deploymentAnnotations:
+    certmanager.k8s.io/disable-validation: "true"
+
