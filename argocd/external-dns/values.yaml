@@ -1,147 +1,262 @@
-external-dns:
-  image:
-    #repository: k8s.gcr.io/external-dns/external-dns
-    # Overrides the image tag whose default is v{{ .Chart.AppVersion }}
-    #tag: "0.12.2-debian-11-r14"
-    pullPolicy: Always
-  
-  imagePullSecrets: []
-  
+external-dns:  
+
+  global:
+    imageRegistry: ""
+    imagePullSecrets: []
+
   nameOverride: ""
+
   fullnameOverride: ""
-  
+  clusterDomain: cluster.local
   commonLabels: {}
+  commonAnnotations: {}
+  extraDeploy: []
+  kubeVersion: ""
+  watchReleaseNamespace: false
   
-  serviceAccount:
-    # Specifies whether a service account should be created
-    create: true
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: ""
+  image:
+    registry: docker.io
+    repository: bitnami/external-dns
+    tag: 0.12.2-debian-11-r14
+    digest: ""
+    pullPolicy: Always
+    pullSecrets: []
+
+  hostAliases: []
+  updateStrategy: {}
+  command: []
+  args: []
+  sources:
+    - service
+    - ingress
+
+  provider: cloudflare
+  initContainers: []
+  sidecars: []
+  namespace: ""
+  fqdnTemplates: []
+  containerPorts:
+    http: 7979
+  combineFQDNAnnotation: false
+  ignoreHostnameAnnotation: false
+  publishInternalServices: false
+  publishHostIP: false
+  serviceTypeFilter: []
   
-  rbac:
-    # Specifies whether RBAC resources should be created
-    create: true
-    additionalPermissions: []
+  cloudflare:
+    ## @param cloudflare.apiToken When using the Cloudflare provider, `CF_API_TOKEN` to set (optional)
+    ##
+    #apiToken: ""
+    ## @param cloudflare.apiKey When using the Cloudflare provider, `CF_API_KEY` to set (optional)
+    ##
+    #apiKey: ""
+    ## @param cloudflare.secretName When using the Cloudflare provider, it's the name of the secret containing cloudflare_api_token or cloudflare_api_key.
+    ## This ignores cloudflare.apiToken, and cloudflare.apiKey
+    ##
+    secretName: "external-dns"
+    ## @param cloudflare.email When using the Cloudflare provider, `CF_API_EMAIL` to set (optional). Needed when using CF_API_KEY
+    ##
+    #email: ""
+    ## @param cloudflare.proxied When using the Cloudflare provider, enable the proxy feature (DDOS protection, CDN...) (optional)
+    ##
+    proxied: true
   
-  # Annotations to add to the Deployment
-  deploymentAnnotations: {}
-  
-  podLabels: {}
-  
-  # Annotations to add to the Pod
+  domainFilters: []
+  excludeDomains: []
+  regexDomainFilter: ""
+  regexDomainExclusion: ""
+  zoneNameFilters: []
+  zoneIdFilters: []
+  annotationFilter: ""
+  labelFilter: ""
+  dryRun: false
+  triggerLoopOnEvent: false
+  interval: "1m"
+  logLevel: info
+  logFormat: text
+  policy: upsert-only
+  registry: "txt"
+  txtPrefix: ""
+  txtSuffix: ""
+  txtOwnerId: ""
+  forceTxtOwnerId: false
+  extraArgs: {}
+  extraEnvVars: []
+  extraEnvVarsCM: ""
+  extraEnvVarsSecret: ""
+  lifecycleHooks: {}
+  schedulerName: ""
+  topologySpreadConstraints: []
+  replicaCount: 1
+  podAffinityPreset: ""
+  podAntiAffinityPreset: soft
+  nodeAffinityPreset:
+    type: ""
+    key: ""
+    values: []
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
   podAnnotations: {}
-  
-  shareProcessNamespace: false
-  
-  podSecurityContext:
-    fsGroup: 65534
-  
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 65534
-    readOnlyRootFilesystem: true
-    capabilities:
-      drop: ["ALL"]
-  
-  # Defaults to `ClusterFirst`.
-  # Valid values are: `ClusterFirstWithHostNet`, `ClusterFirst`, `Default` or `None`.
-  dnsPolicy:
-  
+  podLabels: {}
   priorityClassName: ""
-  
-  terminationGracePeriodSeconds:
-  
-  serviceMonitor:
-    enabled: false
-    additionalLabels: {}
-    interval: 1m
-    scrapeTimeout: 10s
-  
-  env: 
-    - name: CF_API_TOKEN
-      valueFrom:
-        secretKeyRef:
-          key: cloudflare_api_token
-          name: external-dns
-          optional: true
-    - name: CF_API_KEY
-      valueFrom:
-        secretKeyRef:
-          key: cloudflare_api_key
-          name: external-dns
-          optional: true
-    - name: CF_API_EMAIL
-      valueFrom:
-        secretKeyRef:
-          key: cloudflare_api_email
-          name: external-dns
-          optional: true
-  
+  secretAnnotations: {}
+  crd:
+    create: false
+    apiversion: ""
+    kind: ""
+  service:
+    enabled: true
+    type: ClusterIP
+    ports:
+      http: 7979
+    nodePorts:
+      http: ""
+    clusterIP: ""
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: Cluster
+    extraPorts: []
+    annotations: {}
+    labels: {}
+    sessionAffinity: None
+    sessionAffinityConfig: {}
+
+  serviceAccount:
+    create: true
+    name: ""
+    annotations: {}
+    automountServiceAccountToken: true
+    labels: {}
+
+  rbac:
+    create: true
+    clusterRole: true
+    apiVersion: v1
+    pspEnabled: false
+
+  containerSecurityContext: {}
+
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1001
+    runAsUser: 1001
+
+  resources:
+    limits:
+       cpu: 50m
+       memory: 50Mi
+
+    requests:
+       cpu: 10m
+       memory: 50Mi
+
   livenessProbe:
-    httpGet:
-      path: /healthz
-      port: http
+    enabled: true
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 2
     successThreshold: 1
-  
   readinessProbe:
-    httpGet:
-      path: /healthz
-      port: http
+    enabled: true
     initialDelaySeconds: 5
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 6
     successThreshold: 1
-  
-  service:
-    port: 7979
-    annotations: {}
-  
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  ## @param customLivenessProbe Override default liveness probe
+  ##
+  customLivenessProbe: {}
+  ## @param customReadinessProbe Override default readiness probe
+  ##
+  customReadinessProbe: {}
+  ## @param customStartupProbe Override default startup probe
+  ##
+  customStartupProbe: {}
+  ## @param extraVolumes A list of volumes to be added to the pod
+  ##
   extraVolumes: []
-  
+  ## @param extraVolumeMounts A list of volume mounts to be added to the pod
+  ##
   extraVolumeMounts: []
+  ## @param podDisruptionBudget Configure PodDisruptionBudget
+  ## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+  ##
   
-  resources: {}
-  
-  nodeSelector: {}
-  
-  tolerations: []
-  
-  affinity: {}
-  
-  topologySpreadConstraints: []
-  
-  logLevel: info
-  logFormat: text
-  
-  interval: 1m
-  triggerLoopOnEvent: false
-  
-  sources:
-    - service
-    - ingress
-  
-  policy: upsert-only
-  
-  registry: txt
-  txtOwnerId: ""
-  txtPrefix: ""
-  txtSuffix: ""
-  
-  domainFilters: []
-  
-  provider: cloudflare
-  
-  extraArgs: []
-  
-  deploymentStrategy:
-    type: Recreate
-    
+  podDisruptionBudget: {}
+  ## Prometheus Exporter / Metrics
+  ##
+  metrics:
+    ## @param metrics.enabled Enable prometheus to access external-dns metrics endpoint
+    ##
+    enabled: false
+    ## @param metrics.podAnnotations Annotations for enabling prometheus to access the metrics endpoint
+    ##
+    podAnnotations: {}
+    ## Prometheus Operator ServiceMonitor configuration
+    ##
+    serviceMonitor:
+      ## @param metrics.serviceMonitor.enabled Create ServiceMonitor object
+      ##
+      enabled: false
+      ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
+      ##
+      namespace: ""
+      ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+      ##
+      interval: ""
+      ## @param metrics.serviceMonitor.scrapeTimeout Timeout after which the scrape is ended
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
+      ##
+      scrapeTimeout: ""
+      ## @param metrics.serviceMonitor.selector Additional labels for ServiceMonitor object
+      ## ref: https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-configuration
+      ## e.g:
+      ## selector:
+      ##   prometheus: my-prometheus
+      ##
+      selector: {}
+      ## @param metrics.serviceMonitor.metricRelabelings Specify Metric Relabelings to add to the scrape endpoint
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#relabelconfig
+      ##
+      metricRelabelings: []
+      ## @param metrics.serviceMonitor.relabelings [array] Prometheus relabeling rules
+      ##
+      relabelings: []
+      ## @param metrics.serviceMonitor.honorLabels Specify honorLabels parameter to add the scrape endpoint
+      ##
+      honorLabels: false
+      ## DEPRECATED metrics.serviceMonitor.additionalLabels will be removed in a future release - Please use metrics.serviceMonitor.labels instead
+      ## @param metrics.serviceMonitor.labels Used to pass Labels that are required by the installed Prometheus Operator
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
+      ##
+      labels: {}
+      ## @param metrics.serviceMonitor.jobLabel The name of the label on the target service to use as the job name in prometheus.
+      ##
+      jobLabel: ""
+    ## Google Managed Prometheus PodMonitor configuration
+    ##
+    googlePodMonitor:
+      ## @param metrics.googlePodMonitor.enabled Create Google Managed Prometheus PodMonitoring object
+      ##
+      enabled: false
+      ## @param metrics.googlePodMonitor.namespace Namespace in which PodMonitoring created
+      ##
+      namespace: ""
+      ## @param metrics.googlePodMonitor.interval Interval at which metrics should be scraped by Google Managed Prometheus
+      ##
+      interval: "60s"
+      ## @param  metrics.googlePodMonitor.endpoint The endpoint for Google Managed Prometheus scraping the metrics
+      ##
+      endpoint: /metrics
   
