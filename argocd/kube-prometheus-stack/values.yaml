@@ -49,3 +49,12 @@ kube-prometheus-stack:
         hosts:
         - grafana.durp.info      
 
+# Disable control plane metrics
+  kubeEtcd:
+    enabled: false
+  
+  kubeControllerManager:
+    enabled: false
+  
+  kubeScheduler:
+    enabled: false
