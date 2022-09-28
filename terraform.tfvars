@@ -4,7 +4,7 @@ region = "us-central"
 pools = [
   {
     type : "g6-standard-1"
-    count : 1
+    count : 3
     max : 5
   }
 ]
