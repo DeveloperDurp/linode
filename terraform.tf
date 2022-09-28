@@ -29,6 +29,10 @@ resource "linode_lke_cluster" "foobar" {
         content {
             type  = pool.value["type"]
             count = pool.value["count"]
+            autoscaler {
+              min = pool.value["count"]
+              max = pool.value["max"]
+            }
         }
     }
     provisioner "local-exec" {
