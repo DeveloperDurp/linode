@@ -115,6 +115,7 @@ destroy:
 
 ansible-destroy:
   stage: destroy
+  allow_failure: true
   variables:
     DEBIAN_FRONTEND: noninteractive
     K8S_AUTH_KUBECONFIG: config
