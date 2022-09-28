@@ -3,8 +3,8 @@ k8s_version = "1.23"
 region = "us-central"
 pools = [
   {
-    type : "g6-standard-1"
+    type : "g6-standard-2"
     count : 3
-    max : 6
+    max : 3
   }
 ]
