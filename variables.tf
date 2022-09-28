@@ -28,11 +28,13 @@ variable "pools" {
     type = list(object({
     type = string
     count = number
+    max = string
     }))
     default = [
         {
             type = "g6-standard-1"
-            count = 3
+            count = 1
+            max = 1
         }
     ]
 }
