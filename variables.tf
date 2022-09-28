@@ -33,8 +33,8 @@ variable "pools" {
     default = [
         {
             type = "g6-standard-1"
-            count = 1
-            max = 1
+            count = 3
+            max = 3
         }
     ]
 }
