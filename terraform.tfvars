@@ -1,6 +1,6 @@
 label = "main-cluster"
 k8s_version = "1.23"
-region = "us-central"
+region = "us-east"
 pools = [
   {
     type : "g6-standard-2"
