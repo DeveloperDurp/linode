@@ -19,7 +19,7 @@ authentik:
     tag: 2022.9.0
     # -- optional container image digest
     digest: ""
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     pullSecrets: []
   
   # -- See https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common#values
@@ -29,23 +29,27 @@ authentik:
   additionalContainers: {}
   
   ingress:
-    enabled: false
-    ingressClassName: ""
-    annotations: {}
+    enabled: true
+    ingressClassName: "nginx"
+    annotations: 
+        cert-manager.io/cluster-issuer: letsencrypt-production 
     labels: {}
     hosts:
-      - host: authentik.domain.tld
+      - host: authentik.durp.info
         paths:
           - path: "/"
             pathType: Prefix
-    tls: []
+    tls:
+      - secretName: authentik-tls
+        hosts:
+        - authentik.durp.info    
   
   authentik:
     # -- Log level for server and worker
     log_level: info
     # -- Secret key used for cookie singing and unique user IDs,
     # don't change this after the first install
-    secret_key: ""
+    secret_key: "Password@123"
     # -- Path for the geoip database. If the file doesn't exist, GeoIP features are disabled.
     geoip: /geoip/GeoLite2-City.mmdb
     # -- Mode for the avatars. Defaults to gravatar. Possible options 'gravatar' and 'none'
