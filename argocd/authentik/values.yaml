@@ -95,7 +95,7 @@ authentik:
       # -- postgresql Username
       # @default -- `authentik`
       user: "authentik"
-      password: ""
+      password: "authentik"
       port: 5432
       s3_backup:
         # -- optional S3 backup, access key
