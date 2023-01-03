@@ -1,5 +1,5 @@
 label = "main-cluster"
-k8s_version = "1.23"
+k8s_version = "1.24"
 region = "us-east"
 pools = [
   {
